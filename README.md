@@ -7,7 +7,7 @@ How to install
 2. use npm version 6.14.8 and NodeJs version 14.15.0 (Optional)
 3. cd RunAway-mobile
 4. npm install
-5. connect devices or emulator (See on youtub)
+5. connect devices or emulator (Watch on youtub)
 6. run application
 6.1 npx react-native run-android
 OR (if disconnect from server)
