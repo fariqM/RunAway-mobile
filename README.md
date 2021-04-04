@@ -9,7 +9,7 @@ How to install
 4. npm install
 5. connect devices or emulator (Watch on youtub)
 6. run application
-6.1 npx react-native run-android
+7. npx react-native run-android
 OR (if disconnect from server)
-6.2 npx react-native start
-6.3 npx react-native run-android
+8. npx react-native start
+9. npx react-native run-android
