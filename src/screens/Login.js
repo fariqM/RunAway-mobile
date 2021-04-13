@@ -132,7 +132,7 @@ export class Login extends Component {
                 <KeyboardAvoidingView style={{flex:1, marginHorizontal:20}} behavior='padding'>
                     {/*SIMPLY RUN*/}
                     <View  style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-                        <Text style={styles.titleText}>Runaway (Prototype 0.2)</Text>
+                        <Text style={styles.titleText}>Runaway (Prototype 0.3)</Text>
                     </View>
 
                     <View style={{flex:2}}>
