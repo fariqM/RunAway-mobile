@@ -9,7 +9,7 @@ import {updateAllPersonalInfoAction} from '../actions/PersonalInfoAction'
 import {updateAllSettingsAction} from '../actions/SettingsAction'
 
 //References to the root of the firestore database
-const firestore = firebase.firestore();
+const firestore = firebase.firestore().settings({ experimentalForceLongPolling: true });
 //Firebase initialzation 
 firebaseConfig
 
@@ -44,51 +44,52 @@ export class Login extends Component {
                 .then(() => {
                     console.log("Login: Successfully signed in existing user!")
                     let user = firebase.auth().currentUser
+                    this.props.navigation.navigate("SuccessLogin")
 
-                    console.log("Login: Attempting to fetch user data for user with uid=", user.uid)
-                    let userRef = firestore.collection('users').doc(user.uid)
+                    // console.log("Login: Attempting to fetch user data for user with uid=", user.uid)
+                    // let userRef = firestore.collection('users').doc(user.uid)
 
-                    // Fetch User Data from firestore database
-                    userRef.get().then((doc) => {
-                        console.log("Login: Successfully fetched user data for user with uid=", user.uid)
-                        let userData = doc.data()
+                    // // Fetch User Data from firestore database
+                    // userRef.get().then((doc) => {
+                    //     console.log("Login: Successfully fetched user data for user with uid=", user.uid)
+                    //     let userData = doc.data()
 
-                        // Update all personal info in store
-                        this.props.dispatch(updateAllPersonalInfoAction(userData.personal))
-                        // Update all settings info in store 
-                        this.props.dispatch(updateAllSettingsAction(userData.settings))
+                    //     // Update all personal info in store
+                    //     this.props.dispatch(updateAllPersonalInfoAction(userData.personal))
+                    //     // Update all settings info in store 
+                    //     this.props.dispatch(updateAllSettingsAction(userData.settings))
 
 
-                        // ***** Fetch RunLog from firestore database *****
-                        userRef.collection("RunLog").get()
-                        .then((querySnapshot) => {
-                            querySnapshot.forEach((doc) => {
-                                const run = {
-                                    id: doc.id,
-                                    note: doc.get("note"),
-                                    time: doc.get("time"),
-                                    distance: doc.get("distance"),
-                                    pace: doc.get("pace"),
-                                    calories: doc.get("calories"),
-                                    start_time: doc.get("start_time").toDate(),
-                                    end_time: doc.get("end_time").toDate(),
-                                    route: doc.get("route"),
-                                }
-                                this.props.dispatch(addRunAction(run))
-                            })
-                        }).catch((error) => {
-                            console.log("Login: Error fetching run data:", error.message)
-                            Alert.alert(error.message)
-                        })
+                    //     // ***** Fetch RunLog from firestore database *****
+                    //     userRef.collection("RunLog").get()
+                    //     .then((querySnapshot) => {
+                    //         querySnapshot.forEach((doc) => {
+                    //             const run = {
+                    //                 id: doc.id,
+                    //                 note: doc.get("note"),
+                    //                 time: doc.get("time"),
+                    //                 distance: doc.get("distance"),
+                    //                 pace: doc.get("pace"),
+                    //                 calories: doc.get("calories"),
+                    //                 start_time: doc.get("start_time").toDate(),
+                    //                 end_time: doc.get("end_time").toDate(),
+                    //                 route: doc.get("route"),
+                    //             }
+                    //             this.props.dispatch(addRunAction(run))
+                    //         })
+                    //     }).catch((error) => {
+                    //         console.log("Login: Error fetching run data:", error.message)
+                    //         Alert.alert(error.message)
+                    //     })
 
-                        // Navigate to main
-                        this.props.navigation.navigate("Main")
-                    })
-                    .catch((error) => {
-                        console.log("Login: Error fetching user data:", error.message)
-                        Alert.alert(error.message)
-                        firebase.auth().signOut();
-                    })
+                    //     // Navigate to main
+                    //     this.props.navigation.navigate("SuccessLogin")
+                    // })
+                    // .catch((error) => {
+                    //     console.log("Login: Error fetching user data:", error.message)
+                    //     Alert.alert(error.message)
+                    //     firebase.auth().signOut();
+                    // })
 
                     
                 })
@@ -131,7 +132,7 @@ export class Login extends Component {
                 <KeyboardAvoidingView style={{flex:1, marginHorizontal:20}} behavior='padding'>
                     {/*SIMPLY RUN*/}
                     <View  style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-                        <Text style={styles.titleText}>Simply Run</Text>
+                        <Text style={styles.titleText}>Runaway (Prototype 0.2)</Text>
                     </View>
 
                     <View style={{flex:2}}>

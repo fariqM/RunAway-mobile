@@ -11,12 +11,32 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "@react-native-community/geolocation": "^2.0.2",
+    "@react-native-community/masked-view": "^0.1.10",
+    "@react-navigation/bottom-tabs": "^5.11.9",
+    "@react-navigation/native": "^5.9.4",
+    "@react-navigation/stack": "^5.14.4",
+    "base-64": "^1.0.0",
+    "firebase": "7.14.6",
+    "haversine": "^1.1.1",
     "leaflet": "^1.7.1",
     "patch-package": "^6.4.7",
     "react": "17.0.1",
     "react-native": "0.64.0",
+    "react-native-generic-table-page": "^0.4.1",
+    "react-native-gesture-handler": "^1.10.3",
     "react-native-maps": "git+https://github.com/xDemon200/react-native-maps.git",
-    "react-native-webview": "^11.3.2"
+    "react-native-modal-dropdown": "git+https://github.com/siemiatj/react-native-modal-dropdown.git",
+    "react-native-paper": "^4.7.2",
+    "react-native-picker-select": "^8.0.4",
+    "react-native-safe-area-context": "^3.2.0",
+    "react-native-screens": "^3.1.0",
+    "react-native-table-component": "^1.2.1",
+    "react-native-vector-icons": "^8.1.0",
+    "react-native-web": "^0.15.6",
+    "react-native-webview": "^11.3.2",
+    "react-redux": "^7.2.3",
+    "redux": "^4.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -26,7 +46,8 @@
     "eslint": "7.14.0",
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.64.0",
-    "react-test-renderer": "17.0.1"
+    "react-test-renderer": "17.0.1",
+    "redux-mock-store": "^1.5.4"
   },
   "jest": {
     "preset": "react-native"

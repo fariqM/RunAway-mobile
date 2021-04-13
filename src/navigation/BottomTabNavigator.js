@@ -4,7 +4,7 @@ import SimplyRun from '../screens/SimplyRun'
 import RunLog from '../screens/RunLog'
 import endRunNavigator from './endRunNavigator.js';
 import settingsNavigator from './settingsNavigator.js';
-import {MaterialCommunityIcons} from "@expo/vector-icons";
+import {MaterialCommunityIcons} from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'SIMPLY_RUN';

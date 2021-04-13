@@ -1,6 +1,6 @@
 import React, { Component, } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 export default class StartButton extends Component {

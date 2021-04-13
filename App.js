@@ -1,79 +1,44 @@
-import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import MapView, {Marker, Polyline, PROVIDER_GOOGLE} from 'react-native-maps';
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import BottomTabNavigator from './src/navigation/BottomTabNavigator';
+import Launch from './src/screens/Launch'
+import Login from './src/screens/Login';
+import ForgotPassword from './src/screens/ForgotPassword';
+import CreateAccount from './src/screens/CreateAccount'
+import SuccessLogin from './src/screens/SuccessLogin'
+import InputPersonalInfo from './src/screens/InputPersonalInfo'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import rootReducer from './src/reducers' // Importing the index (do not need specifying)
+import { decode, encode } from 'base-64'
 
-// const App = () => {
-//   return (
-//     <MapView
-//     style={styles.map}
-//     initialRegion={{
-//       latitude: -7.3222874293433176,
-//       longitude: 112.73418672360881,
-//       latitudeDelta: 0.0922,
-//       longitudeDelta: 0.0421,
-//     }}
-//   />
-//   )
-// }
 
-export default class Apps extends Component {
-  state = {
-    coordinates: [
-      {
-        name: '2',
-        latitude: -7.319893121173853,
-        longitude: 112.73356445115098,
-      },
-      {
-        name: '1',
-        latitude: -7.3240326060527146,
-        longitude: 112.73263104247353,
-      },
-      
-      {
-        name: '3',
-        latitude: -7.324692366198258,
-        longitude: 112.73424036785293,
-      },
-      {
-        name: '4',
-        latitude: -7.324165622321358,
-        longitude: 112.73451395315494,
-      },
-    ],
-  };
-  render() {
+if (!global.btoa) { global.btoa = encode }
+
+if (!global.atob) { global.atob = decode }
+
+//Create a stack navigator 
+const Stack = createStackNavigator();
+
+//Create a store using the rootReducer 
+const store = createStore(rootReducer)
+
+export default function App() {
+
     return (
-      <MapView
-        style={styles.map}
-        provider={PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: -7.3222874293433176,
-          longitude: 112.73418672360881,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}>
-        <Marker
-          coordinate={{
-            latitude: -7.319893121173853,
-            longitude: 112.73356445115098,
-          }} title={'Mulai'} ></Marker>
-        <Marker
-          coordinate={{
-            latitude: -7.324165622321358,
-            longitude: 112.73451395315494,
-          }} title={'Selesai'} ></Marker>
-
-          <Polyline coordinates={this.state.coordinates} ></Polyline>
-      </MapView>
+        <Provider store={store}>
+            <NavigationContainer >
+                <Stack.Navigator >
+                    <Stack.Screen name="Launch" options={{headerLeft: null}} component={Launch}/>
+                    <Stack.Screen name="Login" options={{ headerLeft: null }} component={Login}/>
+                    <Stack.Screen name="CreateAccount" component={CreateAccount}/>
+                    <Stack.Screen name="ForgotPassword" component={ForgotPassword}/>
+                    <Stack.Screen name="InputPersonalInfo" component={InputPersonalInfo}/>
+                    <Stack.Screen name="SuccessLogin" component={SuccessLogin}/>
+                    {/* <Stack.Screen name="Main" options={{ headerLeft: null }} component={BottomTabNavigator} /> */}
+                </Stack.Navigator>
+            </NavigationContainer>
+        </Provider>
     );
-  }
 }
-
-const styles = StyleSheet.create({
-  map: {
-    height: '100%',
-  },
-});
-
-// export default App

@@ -5,7 +5,7 @@ import * as firebase from 'firebase';
 import '@firebase/firestore';
 import { connect } from 'react-redux'
 import MapView, { Polyline } from 'react-native-maps';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from 'react-native-vector-icons/MaterialCommunityIcons';
 import {addRunAction} from '../actions/RunLogAction'
 
 //Initialize firebase

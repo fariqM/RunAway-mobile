@@ -7,14 +7,13 @@ import '@firebase/firestore';
  */
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCaEci1Cne4c4X2JIIulil6HfkkmXz-tag",
-    authDomain: "simplyrun-11ef9.firebaseapp.com",
-    databaseURL: "https://simplyrun-11ef9.firebaseio.com",
-    projectId: "simplyrun-11ef9",
-    storageBucket: "simplyrun-11ef9.appspot.com",
-    messagingSenderId: "496070112811",
-    appId: "1:496070112811:web:2640fe91afc42c8caa1c6e",
-    measurementId: "G-VKENEKYQB4"
+    apiKey: "AIzaSyBXrcR8_NanTt4FBBvuVWhOolHqMB9TSEY",
+  authDomain: "runaway-fa0af.firebaseapp.com",
+  databaseURL: "https://runaway-fa0af-default-rtdb.firebaseio.com",
+  projectId: "runaway-fa0af",
+  storageBucket: "runaway-fa0af.appspot.com",
+  messagingSenderId: "918071183240",
+  appId: "1:918071183240:web:125218a49ebbf3df355c3d"
 };
 
 // Initialize Firebase

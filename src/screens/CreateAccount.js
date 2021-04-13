@@ -37,7 +37,7 @@ export class CreateAccount extends Component {
                     // Reset CreateAccount's state
                     this.setState({email:null,password:null,confirmPassword:null,emailValid:false,passwordValid:false, confirmValid:false})
                     // Navigate to 'Main'
-                    this.props.navigation.navigate("InputPersonalInfo")
+                    this.props.navigation.navigate("Login")
                 })
                 .catch((error) => {
                     Alert.alert(error.message)
