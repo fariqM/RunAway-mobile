@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet, Alert, TextInput } from 'reac
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button, Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
 import firebase from 'firebase';
+import firestore from '@react-native-firebase/firestore';
 import firebaseConfig from '../config/firebaseConfig';
 import { connect } from 'react-redux';
 import {convertInchesToCentimeters, convertPoundsToKilograms} from '../constants/ConversionFunctions';
@@ -11,7 +12,7 @@ import {resetRunsAction} from '../actions/RunLogAction';
 import {resetAllSettingsAction} from '../actions/SettingsAction';
 
 //References to the root of the firestore database
-const firestore = firebase.firestore();
+// const firestore = firebase.firestore();
 //Firebase initialzation 
 firebaseConfig
 
@@ -125,7 +126,7 @@ export class Settings extends Component {
                                                                 var user = firebase.auth().currentUser;
                                                                 var uid = user.uid;
                                                                 // deletes firestore entry, then deletes firebase auth object
-                                                                firestore.collection('users').doc(uid).delete().then(() => {
+                                                                firestore().collection('users').doc(uid).delete().then(() => {
                                                                     console.log("Account " + this.props.name + " removed from firestore");
                                                                     user.delete().then(() => {
                                                                         console.log("Account " + this.props.name + " from firebase auth.");

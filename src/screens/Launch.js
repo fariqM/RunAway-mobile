@@ -4,13 +4,14 @@ import { ScrollView } from 'react-native-gesture-handler';
 import firebase from 'firebase';
 import firebaseConfig from '../config/firebaseConfig'
 import { connect } from 'react-redux'
+import firestore from '@react-native-firebase/firestore';
 import {addRunAction} from '../actions/RunLogAction'
 import {updateAllPersonalInfoAction} from '../actions/PersonalInfoAction'
 import {updateAllSettingsAction} from '../actions/SettingsAction'
 
 
 //References to the root of the firestore database
-const firestore = firebase.firestore();
+// const firestore = firebase.firestore();
 //Firebase initialzation 
 firebaseConfig
 
@@ -21,7 +22,7 @@ export class Launch extends Component {
         const user = firebase.auth().currentUser
         if (user) {
             console.log("Launch: Attempting to fetch user data for user with uid=", user.uid)
-            let userData = firestore.collection('users').doc(user.uid)
+            let userData = firestore().collection('users').doc(user.uid)
             let runData = userData.collection('RunLog')
 
             // Fetch User Data from firestore database

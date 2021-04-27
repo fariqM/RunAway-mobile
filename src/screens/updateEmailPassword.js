@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { TextInput, Text, View,  StyleSheet, TouchableOpacity, KeyboardAvoidingView, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import firebase from 'firebase';
+import firestore from '@react-native-firebase/firestore';
 import firebaseConfig from '../config/firebaseConfig';
 import { connect } from 'react-redux';
 import {updateEmailAction} from '../actions/PersonalInfoAction';
 
 //References to the root of the firestore database
-const firestore = firebase.firestore();
+// const firestore = firebase.firestore();
 //Firebase initialzation 
 firebaseConfig
 
@@ -52,14 +53,14 @@ export class UpdateEmailPassword extends Component {
                         console.log("Email successfully updated in firebase auth");
     
                         // get personal info from firebase to quickly update email
-                        firestore.collection('users').doc(user.uid).get().then((doc) => {
+                        firestore().collection('users').doc(user.uid).get().then((doc) => {
     
                             // update email in firestore
                             let newPersonal = doc.data().personal;
                             newPersonal.email = e;
     
                             // update firebase, then update redux for email, if changed
-                            firestore.collection('users').doc(user.uid)
+                            firestore().collection('users').doc(user.uid)
                             .update({personal: newPersonal})
                             .then(() => {
                                 console.log("Successfully updated email in firebase")

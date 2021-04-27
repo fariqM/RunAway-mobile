@@ -36,7 +36,7 @@ export default function App() {
                     <Stack.Screen name="ForgotPassword" component={ForgotPassword}/>
                     <Stack.Screen name="InputPersonalInfo" component={InputPersonalInfo}/>
                     <Stack.Screen name="SuccessLogin" component={SuccessLogin}/>
-                    {/* <Stack.Screen name="Main" options={{ headerLeft: null }} component={BottomTabNavigator} /> */}
+                    <Stack.Screen name="Main" options={{ headerLeft: null }} component={BottomTabNavigator} />
                 </Stack.Navigator>
             </NavigationContainer>
         </Provider>

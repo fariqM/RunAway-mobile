@@ -196,6 +196,7 @@ export class RunLog extends Component {
           const lat = this.state.selectedRun.lat;
           const long = this.state.selectedRun.long;
           const route = this.state.selectedRun.route;
+          console.log('RUN-ID = ' + id)
 
           this.setState({
             modalData : modalData,
@@ -208,12 +209,16 @@ export class RunLog extends Component {
       }
     });
     
+
+    
     
   }
 
 
   render() {
+    console.log(this.state.route)
     return (
+      
       <ScrollView >
         <View>
           <Text style = {styles.title}> Run Log </Text>
@@ -278,8 +283,8 @@ export class RunLog extends Component {
                     region={{
                       latitude: this.state.lat,
                       longitude: 	this.state.long,
-                      latitudeDelta: 0.03,
-                      longitudeDelta: 0.03,
+                      latitudeDelta: 0.0102,
+                      longitudeDelta: 0.0101,
                     }}>
                   
                   <Polyline coordinates = {this.state.route.length > 0 ? this.state.route : []}

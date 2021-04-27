@@ -9,11 +9,11 @@ const user = firebase.auth().currentUser;
 
 
 const SuccessLogin = () => {
-    const user = firebase.auth().currentUser;
+    
     return (
         
         <View>
-            <Text>{{ user }}</Text>
+            <Text>login berhasil</Text>
         </View>
     )
 }

@@ -4,7 +4,7 @@ import SimplyRun from '../screens/SimplyRun'
 import RunLog from '../screens/RunLog'
 import endRunNavigator from './endRunNavigator.js';
 import settingsNavigator from './settingsNavigator.js';
-import {MaterialCommunityIcons} from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'SIMPLY_RUN';
@@ -26,7 +26,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         component={RunLog}
         options={{
           title: 'Run Log',
-          tabBarIcon: ({ focused }) => <MaterialCommunityIcons focused={focused} name="folder-outline" size={25} style={{paddingTop: 0}} color={ focused ? activeTintColor : inactiveTintColor} />,
+          tabBarIcon: ({ focused }) => <MaterialCommunityIcons focused={focused} name="history" size={25} style={{paddingTop: 0}} color={ focused ? activeTintColor : inactiveTintColor} />,
         }}
       />
       <BottomTab.Screen
@@ -42,7 +42,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         component={settingsNavigator}
         options={{
           title: 'Settings',
-          tabBarIcon: ({ focused }) => <MaterialCommunityIcons focused={focused} name="settings-outline" size={25} style={{paddingTop: 0}} color={ focused ? activeTintColor : inactiveTintColor} />,
+          tabBarIcon: ({ focused }) => <MaterialCommunityIcons focused={focused} name="cog-outline" size={25} style={{paddingTop: 0}} color={ focused ? activeTintColor : inactiveTintColor} />,
         }}
       />
     </BottomTab.Navigator>
@@ -54,7 +54,7 @@ export function getHeaderTitle(route) {
   switch (routeName) {
     case 'RUN_LOG':
       return 'Run Log';
-    case 'SIMPLY_RUN':
+    case 'RUNAWAY':
       return 'Simply Run';
     case 'SETTINGS':
       return 'Settings';

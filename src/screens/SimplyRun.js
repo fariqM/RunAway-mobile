@@ -6,10 +6,12 @@ import StartButton from "../runbutton/StartButton"
 import StopRunButton from "../runbutton/StopRunButton"
 import MapView, { Polyline } from 'react-native-maps';
 import * as firebase from 'firebase';
-import '@firebase/firestore';
+// import '@firebase/firestore';
 import calculateCalories from '../calories/CalculateCalories'
+import firestore from '@react-native-firebase/firestore';
+import Geolocation from '@react-native-community/geolocation';
 
-import { END_RUN, } from '../actions/EndRunAction'
+import { END_RUN } from '../actions/EndRunAction'
 //Firebase initialzation 
 firebaseConfig
 
@@ -327,7 +329,7 @@ export class SimplyRun extends Component {
         } else {
             if (this.state.paused) {
                 this.setState({ current: "Tracking Run" })
-                navigator.geolocation.getCurrentPosition(
+                Geolocation.getCurrentPosition(
                     position => {
                         var currentPosition = position.coords;
                         this.setState({ previousPosition: currentPosition })
@@ -385,7 +387,7 @@ export class SimplyRun extends Component {
 
     startTracking = () => {
         setTimeout(() => this.intervalTrackingID = setInterval(() => {
-            navigator.geolocation.getCurrentPosition(
+            Geolocation.getCurrentPosition(
                 position => {
                     var currentPosition = position.coords;
 
@@ -396,6 +398,8 @@ export class SimplyRun extends Component {
                     this.setState(prevState => ({
                         route: [...prevState.route, geopoint]
                     }))
+                    console.log('RUN-ROUTE = '+ currentPosition.latitude)
+
                 }
 
             )

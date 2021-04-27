@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView } from 'react-native';
 import firebaseConfig from '../config/firebaseConfig'
 import * as firebase from 'firebase';
-import '@firebase/firestore';
+// import '@firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 import { connect } from 'react-redux'
 import MapView, { Polyline } from 'react-native-maps';
-import { MaterialCommunityIcons } from 'react-native-vector-icons/MaterialCommunityIcons';
+import  MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 import {addRunAction} from '../actions/RunLogAction'
 
 //Initialize firebase
 firebaseConfig
-const Firestore = firebase.firestore();
+// const Firestore = firebase.firestore();
 
 class EndRun extends Component {
 
@@ -27,7 +28,7 @@ class EndRun extends Component {
         this.setState({ notes: note })
     }
     sendToFirebase = () => {
-        Firestore.collection('users').doc(firebase.auth().currentUser.uid).collection("RunLog").add({
+        firestore().collection('users').doc(firebase.auth().currentUser.uid).collection("RunLog").add({
             calories: this.props.calories,
             distance: this.props.distance,
             end_time: this.props.endTime,

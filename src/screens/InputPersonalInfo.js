@@ -4,14 +4,19 @@ import firebase from 'firebase';
 import firebaseConfig from '../config/firebaseConfig'
 import { connect } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler';
-import RNPickerSelect from 'react-native-picker-select';
+
+// import RNPickerSelect from 'react-native-picker-select';
+import firestore from '@react-native-firebase/firestore';
+
+import {Picker} from '@react-native-community/picker';
 import {months, days, years} from '../constants/Date'
 import {updateAllPersonalInfoAction} from '../actions/PersonalInfoAction'
 import {updateAllSettingsAction} from '../actions/SettingsAction'
 import {convertCentimetersToInches, convertKilogramsToPounds} from '../constants/ConversionFunctions'
 
 //References to the root of the firestore database
-const firestore = firebase.firestore();
+// const firestore = firebase.firestore();
+// const firestore = firestore;
 //Firebase initialzation 
 firebaseConfig
 
@@ -39,6 +44,7 @@ export class InputPersonalInfo extends Component {
             return Number(+(12*ftm) + +incm)
         }
     }
+
 
     convertWeightToPounds = (weight) => {
         if (this.state.metric) {
@@ -100,7 +106,19 @@ export class InputPersonalInfo extends Component {
 
         console.log("InputPersonalInfo: personal:",personal,"settings:",settings)
 
-        firestore.collection('users').doc(user.uid)
+        // Testing Code
+        // firestore()
+        // .collection('Users')
+        // .doc('ABC')
+        // .set({
+        //     name: 'Ada Lovelace',
+        //     age: 30,
+        // })
+        // .then(() => {
+        //     console.log('User added!');
+        // });
+
+        firestore().collection('users').doc(user.uid)
         .set({ personal, settings})
         .then(() => {
             console.log("InputPersonalInfo: Successfully added user's personal info to firestore")
@@ -127,12 +145,32 @@ export class InputPersonalInfo extends Component {
 
 
     render() {
+        let MonthItems = months.map( (s, i) => {
+            // return console.log(s)
+           return (<Picker.Item key={i} value={s.value} label={s.label} />)
+        });
+
+        let dayItems = days.map( (s, i) => {
+            // return console.log(s)
+            return (<Picker.Item key={i} value={s.value} label={s.label} />)
+        });
+
+        let YearItems = years.map( (s, i) => {
+            // return console.log(s)
+            return (<Picker.Item key={i} value={s.value} label={s.label} />)
+        });
+
+
+        // console.log(years);
+        // console.log(days);
+        // console.log(months);
         return (
+            
             <ScrollView contentContainerStyle={{flexGrow: 1}} keyboardShouldPersistTaps='handled'>
                 <KeyboardAvoidingView style={{flex:1, marginHorizontal:20}} behavior='padding'>
                     {/*SIMPLY RUN*/}
                     <View  style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-                        <Text style={styles.titleText}>Simply Run</Text>
+                        <Text style={styles.titleText}>RunAway Protoype</Text>
                     </View>
 
                     <View style={{flex:1}}>
@@ -194,8 +232,47 @@ export class InputPersonalInfo extends Component {
                         <View style={{ minHeight:25, flexDirection:'row', justifyContent:'center',alignItems:'center', paddingTop:10}}>
                             <Text style={{flex:1, alignContent:'center', justifyContent:'center'}}>Birth Date:</Text>
                         </View>
+                        
                         <View style={{ minHeight:50, flexDirection:'row', justifyContent:'center',alignItems:'center'}}>
-                            <View style={styles.pickerStyle}>
+                           
+
+                           {/* month */}
+                           <View style={styles.pickerStyle}>
+                                <Picker
+                                    selectedValue={this.state.month}
+                                    style={{ height: 50, width: 100 }}
+                                    onValueChange={(value, index) => this.setState({month:value})}
+                                >
+                                    {MonthItems}
+                                </Picker>
+                           </View>
+                            
+
+                            {/* days */}
+                           <View style={styles.pickerStyle}>
+                                <Picker
+                                    selectedValue={this.state.day}
+                                    style={{ height: 50, width: 100 }}
+                                    onValueChange={(value, index) => this.setState({day:value})}
+                                >
+                                   {dayItems}
+                                </Picker>
+                           </View>
+
+                            {/* Year */}
+                           <View style={styles.pickerStyle}>
+                                <Picker
+                                    selectedValue={this.state.year}
+                                    style={{ height: 50, width: 100 }}
+                                    onValueChange={(value, index) => this.setState({year:value})}
+                                >
+                                    {YearItems}
+                                </Picker>
+                           </View>
+                           
+                           
+                            
+                            {/* <View style={styles.pickerStyle}>
                                 <RNPickerSelect
                                     items={months}
                                     placeholder={{label: "Month",value:null}}
@@ -215,7 +292,7 @@ export class InputPersonalInfo extends Component {
                                     placeholder={{label: "Year",value:null}}
                                     value={this.state.year}
                                     onValueChange={(value, index) => this.setState({year:value})}/>
-                            </View>
+                            </View> */}
                         </View>
 
 

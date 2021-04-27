@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "918071183240",
+    "firebase_url": "https://runaway-fa0af-default-rtdb.firebaseio.com",
+    "project_id": "runaway-fa0af",
+    "storage_bucket": "runaway-fa0af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:918071183240:android:051ad6b308bd8926355c3d",
+        "android_client_info": {
+          "package_name": "com.runaway"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "918071183240-cnqj0b0f7ffh01d65aobo8rtsrhnj1om.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.runaway",
+            "certificate_hash": "28364882a5c0a956985446f5a26024af6f36c131"
+          }
+        },
+        {
+          "client_id": "918071183240-nla4btni2v124fm3qjpar8p7jn4744r9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1uTqTfRSLZy064IF2falgNaNQGq8ge5I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "918071183240-nla4btni2v124fm3qjpar8p7jn4744r9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

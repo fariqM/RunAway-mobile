@@ -2,10 +2,12 @@ export const ADD_RUN = "ADD_RUN"
 export const DELETE_RUN = "DELETE_RUN"
 export const RESET_RUNS = "RESET_RUNS"
 import * as firebase from 'firebase';
-import '@firebase/firestore';
+// import '@firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 
 export const addRunAction = (newRun) => {
 //    var route = [];
+    
     var lat = 0;
     var long = 0;
   
@@ -14,6 +16,7 @@ export const addRunAction = (newRun) => {
         geopoint = newRun.route[i]
         lat += geopoint.latitude;
         long += geopoint.longitude;
+        console.log('Route in RunLogAction adalah = ' +  lat)
     //    route.push({latitude: geopoint.latitude, longitude: geopoint.longitude});
     }
     
@@ -23,6 +26,7 @@ export const addRunAction = (newRun) => {
         long /= newRun.route.length;
     }
 
+    
 
     return {
         type: ADD_RUN,
@@ -52,3 +56,4 @@ export const resetRunsAction = () => {
         type: RESET_RUNS,
     }
 }
+

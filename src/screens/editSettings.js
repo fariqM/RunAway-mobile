@@ -3,6 +3,7 @@ import { TextInput, Text, View, StyleSheet, TouchableOpacity, Switch, Alert } fr
 import { ScrollView } from 'react-native-gesture-handler';
 import RNPickerSelect from 'react-native-picker-select';
 import firebase from 'firebase';
+import firestore from '@react-native-firebase/firestore';
 import {months, days, years} from '../constants/Date';
 import firebaseConfig from '../config/firebaseConfig';
 import { connect } from 'react-redux';
@@ -12,7 +13,7 @@ import {convertInchesToCentimeters, convertPoundsToKilograms, convertCentimeters
     convertKilogramsToPounds} from '../constants/ConversionFunctions';
 
 //References to the root of the firestore database
-const firestore = firebase.firestore();
+// const firestore = firebase.firestore();
 //Firebase initialzation 
 firebaseConfig
 
@@ -124,7 +125,7 @@ export class EditSettings extends Component {
         }
 
         // update firebase, then update redux
-        firestore.collection('users').doc(user.uid)
+        firestore().collection('users').doc(user.uid)
         .update({ personal, settings})
         .then(() => {
             console.log("Successfully updated settings")
