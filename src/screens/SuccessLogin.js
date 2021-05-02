@@ -26,17 +26,6 @@ class Apps extends Component {
       position => {
         var lat = parseFloat(position.coords.latitude);
         var long = parseFloat(position.coords.longitude);
-
-<<<<<<< HEAD
-const SuccessLogin = () => {
-    
-    return (
-        
-        <View>
-            <Text>login berhasil</Text>
-        </View>
-    )
-=======
         var initialRegion = {
           latitude: lat,
           longitude: long,
@@ -67,7 +56,7 @@ const SuccessLogin = () => {
       </View>
     );
   }
->>>>>>> ea1c35bbaf2a4355cff4c390074d70f70dff55c8
+
 }
 
 const styles = StyleSheet.create({
@@ -89,5 +78,6 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
 });
+
 
 export default Apps;

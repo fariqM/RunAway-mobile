@@ -16,7 +16,7 @@ export const addRunAction = (newRun) => {
         geopoint = newRun.route[i]
         lat += geopoint.latitude;
         long += geopoint.longitude;
-        console.log('Route in RunLogAction adalah = ' +  lat)
+        
     //    route.push({latitude: geopoint.latitude, longitude: geopoint.longitude});
     }
     
@@ -25,7 +25,7 @@ export const addRunAction = (newRun) => {
         lat = lat /newRun.route.length;
         long /= newRun.route.length;
     }
-
+    console.log('Route in RunLogAction adalah = ' +  lat)
     
 
     return {
@@ -39,8 +39,8 @@ export const addRunAction = (newRun) => {
         start_time: newRun.start_time.toString(),
         end_time: newRun.end_time.toString(),
         route: newRun.route,
-        lat: Number(lat.toFixed(6)),
-        long: Number(long.toFixed(6)),
+        lat: lat,
+        long: long,
     }
 }
 
