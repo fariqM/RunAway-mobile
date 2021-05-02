@@ -295,7 +295,7 @@ export class RunLog extends Component {
   // }
 
   render() {
-    // console.log('before maps render ' + JSON.stringify(this.state.route));
+    console.log('before maps render ' + JSON.stringify(this.state.route));
 
     return (
       <ScrollView>
