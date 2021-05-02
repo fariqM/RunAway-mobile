@@ -6,28 +6,35 @@ import * as firebase from 'firebase';
 import firestore from '@react-native-firebase/firestore';
 
 export const addRunAction = (newRun) => {
-//    var route = [];
+   var route = [];
     
     var lat = 0;
     var long = 0;
-  
+    var koor = {latitude: 0, longitude:0}
     //build route
-    for (i = 0; i < newRun.route.length; i++){
-        geopoint = newRun.route[i]
-        lat += geopoint.latitude;
-        long += geopoint.longitude;
+    // for (i = 0; i < newRun.route.length; i++){
+    //     geopoint = newRun.route[i]
+    //     lat += geopoint.latitude;
+    //     long += geopoint.longitude;
         
-    //    route.push({latitude: geopoint.latitude, longitude: geopoint.longitude});
-    }
+    // //    route.push({latitude: geopoint.latitude, longitude: geopoint.longitude});
+    // }
+
     
     //get average latitude and average longitude to determine where to center the map
-    if (newRun.route.length !== 0) {
-        lat = lat /newRun.route.length;
-        long /= newRun.route.length;
-    }
-    console.log('Route in RunLogAction adalah = ' +  lat)
-    
+    // if (newRun.route.length != 0) {
+    //     lat = lat /newRun.route.length;
+    //     long /= newRun.route.length;
+    // }
 
+    console.log('Route  in RunLogAction adalah = ' +  JSON.stringify(newRun.route))
+    newRun.route.forEach(element => {
+    koor.latitude = element.wc
+    koor.longitude = element.Rc
+    });
+    console.log('CHEK KOOR <<<<< = ' +   JSON.stringify([koor]))
+    // console.log('Route long in RunLogAction adalah = ' +  long)
+    
     return {
         type: ADD_RUN,
         id: newRun.id,
@@ -38,9 +45,9 @@ export const addRunAction = (newRun) => {
         calories: newRun.calories,
         start_time: newRun.start_time.toString(),
         end_time: newRun.end_time.toString(),
-        route: newRun.route,
-        lat: lat,
-        long: long,
+        route: [koor],
+        lat: newRun.route[0].wc,
+        long: newRun.route[0].Rc,
     }
 }
 

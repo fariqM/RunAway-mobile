@@ -27,6 +27,8 @@ export class RunLog extends Component {
     route: [],
     lat: 0,
     long: 0,
+    jan: 2,
+    cok: 2,
     selectedRun: null,
     ascendingSort: true,
   };
@@ -186,24 +188,34 @@ export class RunLog extends Component {
 
   //gets info for selected run
   RunDetails(id) {
-    console.log('im in');
+    // console.log('im in');
 
-    let user = firebase.auth().currentUser;
+    
+    // let latid = 0;
+    // let longi = 0;
+    // let user = firebase.auth().currentUser;
+    // let userRef = firestore().collection('users').doc(user.uid);
+    // userRef
+    //   .collection('RunLog')
+    //   .doc(id)
+    //   .get()
+    //   .then(querySnapshot => {
+        
 
-    let userRef = firestore().collection('users').doc(user.uid);
-    userRef
-      .collection('RunLog')
-      .doc(id)
-      .get()
-      .then(querySnapshot => {
-        console.log('User exists: ', querySnapshot.data().route);
-      })
+        
+    //     this.props.runs[0].lat = querySnapshot.data().route[0].wc
+    //     // this.setState({
+    //     //   lat: querySnapshot.data().route[0].wc,
+    //     //   long: querySnapshot.data().route[0].Rc,
+    //     // });
+       
+    //   }).catch(error => {
+    //     console.log('Login: Error fetching run data:', error.message);
+    //     Alert.alert(error.message);
+    //   });
 
-      
-      .catch(error => {
-        console.log('Login: Error fetching run data:', error.message);
-        Alert.alert(error.message);
-      });
+  
+
 
     this.props.runs.forEach(run => {
       if (run.id === id) {
@@ -244,16 +256,19 @@ export class RunLog extends Component {
             date: date,
             route: route,
             lat: lat,
-            long: long,
+            long: long
           });
 
           console.log(
             'this is our state in RunLog ' + JSON.stringify(this.state),
           );
           console.log('this is our state id in RunLog ' + id);
+          
         });
       }
     });
+
+    console.log("props runsss.... "+ JSON.stringify(this.props.runs[0]))
   }
 
   // koordinat() {
