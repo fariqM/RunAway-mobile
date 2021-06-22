@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
-import MapView, {Marker, Polyline, PROVIDER_GOOGLE} from 'react-native-maps';
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 
 class Apps extends Component {
@@ -11,7 +11,7 @@ class Apps extends Component {
         latitude: 0,
         longitude: 0,
         latitudeDelta: 0.0102,
-          longitudeDelta: 0.0101,
+        longitudeDelta: 0.0101,
       },
       marker: {
         latitude: 0,
@@ -39,8 +39,8 @@ class Apps extends Component {
           longitude: long,
         };
 
-        this.setState({initialPosition: initialRegion});
-        this.setState({marker: Mymarker});
+        this.setState({ initialPosition: initialRegion });
+        this.setState({ marker: Mymarker });
       },
       error => alert(JSON.stringify(error)),
     );
@@ -50,9 +50,23 @@ class Apps extends Component {
     return (
       <View style={styles.container}>
         <MapView style={styles.map} initialRegion={this.state.initialPosition}>
-          <Marker
-            coordinate={this.state.marker}
-            title={'SAYA'}></Marker>
+          <Polyline
+            coordinates={[
+              { latitude: -7.399411817703062, longitude: 112.59127431251501 },
+              { latitude: -7.402920175998046, longitude: 112.58734219439292 },
+              
+            ]}
+            strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+            strokeColors={[
+              '#7F0000',
+              '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
+              '#B24112',
+              '#E5845C',
+              '#238C23',
+              '#7F0000'
+            ]}
+            strokeWidth={6}
+          />
         </MapView>
       </View>
     );

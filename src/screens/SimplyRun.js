@@ -37,7 +37,13 @@ export class SimplyRun extends Component {
         startTime: "",
         route: "",
         pace: 0,
-        calories: 0
+        calories: 0,
+        initialPosition: {
+            latitude: 0,
+            longitude: 0,
+            latitudeDelta: 0.0102,
+            longitudeDelta: 0.0101,
+        },
     }
 
     componentDidUpdate(prevProps) {
@@ -49,6 +55,44 @@ export class SimplyRun extends Component {
         }
 
     }
+
+    componentDidMount() {
+        Geolocation.getCurrentPosition(
+            position => {
+
+                var lat = parseFloat(position.coords.latitude);
+                var long = parseFloat(position.coords.longitude);
+
+                var initialRegion = {
+                    latitude: lat,
+                    longitude: long,
+                    latitudeDelta: 0.0102,
+                    longitudeDelta: 0.0101,
+                };
+                this.setState({ initialPosition: initialRegion });
+
+            },
+            error => alert(JSON.stringify(error)),
+        );
+
+         Geolocation.watchPosition(position => {
+            // console.log("testing watch position => " + position.coords.longitude);
+    
+            if (!this.state.paused) {
+                // console.log("testing watch position => " + position.coords.longitude);
+            } else {
+                // console.log("im not wathing now");
+            }
+        }, error => console.log(error), {
+            enableHighAccuracy: true,
+            // timeout: 20000,
+            distanceFilter: 0.000001,
+        })
+
+
+    }
+   
+
 
 
     formatStats = () => {
@@ -296,10 +340,19 @@ export class SimplyRun extends Component {
 
     }
 
+
     start = () => {
         //Get Inital start of run time 
 
         var startTime = new Date().getTime()
+
+
+
+        var watchingOption = {
+            enableHighAccuracy: true,
+            timeout: 20000,
+            distanceFilter: 0.001,
+        }
 
 
         if (!this.state.startRun & this.state.paused) {
@@ -308,6 +361,8 @@ export class SimplyRun extends Component {
         //Run has not started yet
         if (this.state.startRun) {
             this.setState({ startTime: new Date() })
+
+
             this.startTracking()
             this.setState({ current: "Tracking Run" })
             this.setState({ button: true, stopButton: true, startRun: false })
@@ -391,15 +446,21 @@ export class SimplyRun extends Component {
                 position => {
                     var currentPosition = position.coords;
 
-                    this.setState({ coordinates: this.state.coordinates.concat([currentPosition]) })
+
+                    this.setState({ coordinates: this.state.coordinates.concat([{ "latitude": currentPosition.latitude, "longitude": currentPosition.longitude }]) })
                     this.setState({ distance: this.state.distance + this.coordDistance(currentPosition) })
                     this.setState({ previousPosition: currentPosition })
-                    geopoint = new firebase.firestore.GeoPoint(currentPosition.latitude, currentPosition.longitude)
+                    let geopoint = new firebase.firestore.GeoPoint(currentPosition.latitude, currentPosition.longitude)
                     this.setState(prevState => ({
                         route: [...prevState.route, geopoint]
                     }))
-                    console.log('RUN-ROUTE = '+ currentPosition.latitude)
+                    console.log('RUN-ROUTE => ' + currentPosition.latitude)
+                    // console.log('interval => ' + JSON.stringify(this.intervalTrackingID));
 
+                }, err => {
+                    console.log(err);
+                }, {
+                    enableHighAccuracy : true
                 }
 
             )
@@ -411,7 +472,7 @@ export class SimplyRun extends Component {
                 this.setState({ calories: cal })
             }
 
-        }, 10000), 1000);
+        }, 1000), 1000);
     }
 
     coordDistance = (position) => {
@@ -423,6 +484,7 @@ export class SimplyRun extends Component {
         clearInterval(this.intervalId, this.intervalTrackingID);
     }
 
+
     render() {
         return (
             <View style={{ flex: 1, }}>
@@ -433,11 +495,15 @@ export class SimplyRun extends Component {
                         showsUserLocation={true}
                         style={{ flex: 2 }}
                         followsUserLocation={true}
+                        initialRegion={this.state.initialPosition}
                     >
+                        <Polyline coordinates={[{ "latitude": -7.3995394, "longitude": 112.5905977 }, { "latitude": -7.402920175998046, "longitude": 112.58734219439292 }]} strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+                            strokeColors={[
+                                '#7F0000',
+                                '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
 
-                        <Polyline coordinates={this.state.coordinates} strokeWidth={5} />
-
-
+                            ]}
+                            strokeWidth={4} />
                     </MapView> : null
                 }
 

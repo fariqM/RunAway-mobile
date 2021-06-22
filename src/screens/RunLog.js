@@ -151,6 +151,7 @@ export class RunLog extends Component {
 
   //fetches run details and displays modal
   async setModalVisible(visible, id) {
+    // console.log("row Id =>> "+id);
     this.RunDetails(id);
     this.setState({modalVisible: visible});
   }
@@ -188,8 +189,8 @@ export class RunLog extends Component {
 
   //gets info for selected run
   RunDetails(id) {
-    // console.log('im in');
-
+    // console.log("Run Log details ==> " +id);
+    // console.log("Run Log details ==> " + JSON.stringify(this.props.runs));
     
     // let latid = 0;
     // let longi = 0;
@@ -249,7 +250,7 @@ export class RunLog extends Component {
           const lat = this.state.selectedRun.lat;
           const long = this.state.selectedRun.long;
           const route = this.state.selectedRun.route;
-          console.log('this is our lat in RunLog ' + lat);
+          console.log('this is our lat in RunLog ' + JSON.stringify(route));
 
           this.setState({
             modalData: modalData,
@@ -259,16 +260,17 @@ export class RunLog extends Component {
             long: long
           });
 
-          console.log(
-            'this is our state in RunLog ' + JSON.stringify(this.state),
-          );
-          console.log('this is our state id in RunLog ' + id);
+          console.log("this is our state >>>> " + JSON.stringify(this.state.route));
+          // console.log(
+          //   'this is our state in RunLog ' + JSON.stringify(this.state),
+          // );
+          // console.log('this is our route in RunLog ' + JSON.stringify(this.state.selectedRun.route));
           
         });
       }
     });
 
-    console.log("props runsss.... "+ JSON.stringify(this.props.runs[0]))
+    // console.log("props runsss.... "+ JSON.stringify(this.props.runs[0]))
   }
 
   // koordinat() {
@@ -295,7 +297,7 @@ export class RunLog extends Component {
   // }
 
   render() {
-    console.log('before maps render ' + JSON.stringify(this.state.route));
+    // console.log('before maps render ' + JSON.stringify(this.state.route));
 
     return (
       <ScrollView>
@@ -358,6 +360,7 @@ export class RunLog extends Component {
                 underlayColor="#AAAAAA"
                 style={[index % 2 && {backgroundColor: '#DDDDDD'}]}
                 onPress={() =>
+                  // console.log("data on click => " +  rowData[rowData.length - 1])
                   this.setModalVisible(
                     !this.state.modalVisible,
                     rowData[rowData.length - 1],
