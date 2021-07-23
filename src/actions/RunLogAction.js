@@ -8,11 +8,13 @@ import firestore from '@react-native-firebase/firestore';
 export const addRunAction = newRun => {
   //    var route = [];
 
+  // console.log("ALLL of DATA HERE >>> " + JSON.stringify(newRun));
   var lat = 0;
   var long = 0;
-  var koor = {latitude: 0, longitude: 0};
+  var koor = { latitude: 0, longitude: 0 };
 
   var polilen = [];
+
   //build route
   // for (i = 0; i < newRun.route.length; i++){
   //     geopoint = newRun.route[i]
@@ -28,17 +30,21 @@ export const addRunAction = newRun => {
   //     long /= newRun.route.length;
   // }
 
-  console.log(
-    'Route  in RunLogAction adalah = ' + JSON.stringify(newRun.route),
-  );
-  newRun.route.forEach(element => {
+  const AS = newRun.route
+  // console.log(
+  //   'Route  in RunLogAction adalah = ' + JSON.stringify(newRun.route),
+  // );
+  Array.prototype.forEach.call(AS, element => {
     koor.latitude = element.wc;
     koor.longitude = element.Rc;
 
-    polilen.push(koor)
+    polilen.push({latitude: element.wc, longitude: element.Rc})
+    // console.log("our polilen >>> " +JSON.stringify(polilen));
   });
-  console.log('CHEK array <<<<< = ' + JSON.stringify(polilen));
-  // console.log('Route long in RunLogAction adalah = ' +  long)
+
+
+  // console.log('CHEK array <<<<< = ' + JSON.stringify(AS));
+  // console.log('Route in RunLogAction adalah = ' +  JSON.stringify(polilen))
 
   return {
     type: ADD_RUN,

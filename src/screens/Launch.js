@@ -53,8 +53,9 @@ export class Launch extends Component {
                     })
                 }).catch((error) => {
                     console.log("Launch: Error fetching run data:", error.message)
-                    Alert.alert(error.message)
+                    // Alert.alert("Launch:"+error.message)
                 })
+
 
                 // Navigate to main
                 this.props.navigation.navigate("Main")

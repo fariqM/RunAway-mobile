@@ -1,6 +1,6 @@
 import React, { Component, } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
-import  MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 export default class StartButton extends Component {
@@ -21,7 +21,10 @@ export default class StartButton extends Component {
                     shadowOffset: { width: 0, height: 2 },
                     shadowOpacity: 0.8,
                     shadowRadius: 5,
-                }} delayLongPress={1000} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
+                }} delayLongPress={1000} 
+                onPress={this.props.onPress} 
+                onLongPress={this.props.onLongPress}
+                >
 
                 {this.props.pauseButton ?
                     <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>

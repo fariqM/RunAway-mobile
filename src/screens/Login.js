@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, TouchableOpacity, Alert, StyleSheet, KeyboardAvoidingView} from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Alert, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import firebase from 'firebase';
 import firebaseConfig from '../config/firebaseConfig'
 import { connect } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler';
-import {addRunAction} from '../actions/RunLogAction'
-import {updateAllPersonalInfoAction} from '../actions/PersonalInfoAction'
-import {updateAllSettingsAction} from '../actions/SettingsAction'
+import { addRunAction } from '../actions/RunLogAction'
+import { updateAllPersonalInfoAction } from '../actions/PersonalInfoAction'
+import { updateAllSettingsAction } from '../actions/SettingsAction'
 import firestore from '@react-native-firebase/firestore';
 
 
@@ -17,10 +17,10 @@ firebaseConfig
 
 export class Login extends Component {
     state = {
-        email:null,
-        password:null,
-        emailValid:false,
-        passwordValid:false,
+        email: null,
+        password: null,
+        emailValid: false,
+        passwordValid: false,
     }
 
     // Function to navigate to the CreateAcount Screen
@@ -46,7 +46,7 @@ export class Login extends Component {
                 .then(() => {
                     console.log("Login: Successfully signed in existing user!")
                     let user = firebase.auth().currentUser
-                    this.props.navigation.navigate("SuccessLogin")
+                    // this.props.navigation.navigate("SuccessLogin")
 
                     console.log("Login: Attempting to fetch user data for user with uid=", user.uid)
                     let userRef = firestore().collection('users').doc(user.uid)
@@ -64,37 +64,37 @@ export class Login extends Component {
 
                         // ***** Fetch RunLog from firestore database *****
                         userRef.collection("RunLog").get()
-                        .then((querySnapshot) => {
-                            querySnapshot.forEach((doc) => {
-                                const run = {
-                                    id: doc.id,
-                                    note: doc.get("note"),
-                                    time: doc.get("time"),
-                                    distance: doc.get("distance"),
-                                    pace: doc.get("pace"),
-                                    calories: doc.get("calories"),
-                                    start_time: doc.get("start_time").toDate(),
-                                    end_time: doc.get("end_time").toDate(),
-                                    route: doc.get("route"),
-                                }
-                                this.props.dispatch(addRunAction(run))
-                                console.log('Route Login = ' + run.route)
+                            .then((querySnapshot) => {
+                                querySnapshot.forEach((doc) => {
+                                    const run = {
+                                        id: doc.id,
+                                        note: doc.get("note"),
+                                        time: doc.get("time"),
+                                        distance: doc.get("distance"),
+                                        pace: doc.get("pace"),
+                                        calories: doc.get("calories"),
+                                        start_time: doc.get("start_time").toDate(),
+                                        end_time: doc.get("end_time").toDate(),
+                                        route: doc.get("route"),
+                                    }
+                                    this.props.dispatch(addRunAction(run))
+
+                                })
+                            }).catch((error) => {
+                                console.log("Login: Error fetching run data:", error.message)
+                                Alert.alert("Login:"+error.message)
                             })
-                        }).catch((error) => {
-                            console.log("Login: Error fetching run data:", error.message)
-                            Alert.alert(error.message)
-                        })
 
                         // Navigate to main
                         this.props.navigation.navigate("Main")
                     })
-                    .catch((error) => {
-                        console.log("Login: Error fetching user data:", error.message)
-                        Alert.alert(error.message)
-                        firebase.auth().signOut();
-                    })
+                        .catch((error) => {
+                            console.log("Login: Error fetching user data:", error.message)
+                            Alert.alert(error.message)
+                            firebase.auth().signOut();
+                        })
 
-                    
+
                 })
                 .catch((error) => {
                     console.log("Login: Error signing in user:", error.message)
@@ -102,8 +102,8 @@ export class Login extends Component {
                     return
                 });
 
-                // Reset Login's state
-                this.setState({email:null, password:null, emailValid:false, passwordValid:false})
+            // Reset Login's state
+            this.setState({ email: null, password: null, emailValid: false, passwordValid: false })
 
 
         } else {
@@ -115,31 +115,31 @@ export class Login extends Component {
 
     updateEmail = (text) => {
         if (text.length >= 8) {
-            this.setState({email:text, emailValid:true})
+            this.setState({ email: text, emailValid: true })
         } else {
-            this.setState({email:text, emailValid:false})
+            this.setState({ email: text, emailValid: false })
         }
     }
 
     updatePassword = (text) => {
         if (text.length >= 8) {
-            this.setState({password:text, passwordValid:true})
+            this.setState({ password: text, passwordValid: true })
         } else {
-            this.setState({password:text, passwordValid:false})
+            this.setState({ password: text, passwordValid: false })
         }
     }
 
     render() {
         return (
-            <ScrollView contentContainerStyle={{flexGrow: 1}} keyboardShouldPersistTaps='handled'>
-                <KeyboardAvoidingView style={{flex:1, marginHorizontal:20}} behavior='padding'>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled'>
+                <KeyboardAvoidingView style={{ flex: 1, marginHorizontal: 20 }} behavior='padding'>
                     {/*SIMPLY RUN*/}
-                    <View  style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-                        <Text style={styles.titleText}>Runaway (Prototype 0.3)</Text>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={styles.titleText}>Runaway</Text>
                     </View>
 
-                    <View style={{flex:2}}>
-                    
+                    <View style={{ flex: 2 }}>
+
                         {/*TextInput for email address*/}
                         <TextInput
                             placeholder="Email"
@@ -155,13 +155,13 @@ export class Login extends Component {
 
                         {/*TextInput for password*/}
                         <TextInput
-                            placeholder="Password" 
+                            placeholder="Password"
                             value={this.state.password}
                             onChangeText={(text) => this.updatePassword(text)}
                             autoCapitalize='none'
                             returnKeyType={'done'}
                             ref={(input) => { this.passwordInput = input; }}
-                            onSubmitEditing={() => {this.signIn()}}
+                            onSubmitEditing={() => { this.signIn() }}
                             keyboardType='email-address'
                             secureTextEntry
                             style={styles.textInput}
@@ -169,24 +169,25 @@ export class Login extends Component {
 
 
                         {/*Button for signing user*/}
-                        <TouchableOpacity 
+                        <TouchableOpacity
                             onPress={() => this.signIn()}
                             disabled={(this.state.emailValid && this.state.passwordValid ? false : true)}>
                             <View style={{
-                                height:50,
+                                height: 50,
                                 backgroundColor: (this.state.emailValid && this.state.passwordValid ? "lightblue" : "lightgray"),
-                                justifyContent:'center',
-                                alignItems:'center',
-                                paddingHorizontal:15,}}>
-                                <Text style={{fontSize:20,color:'black'}}>Sign In!</Text>
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingHorizontal: 15,
+                            }}>
+                                <Text style={{ fontSize: 20, color: 'black' }}>Sign In!</Text>
                             </View>
                         </TouchableOpacity>
 
 
                         {/*Button for changing to the CreateAccount screen*/}
-                        <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center', height:75}}>
-                            <Text style={{fontSize:18}}>Don't have an account?</Text>
-                            <Text style={{fontSize:18, color:'#076fd9', paddingLeft:10}} onPress={this.goToCreateAccount}>Sign Up!</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 75 }}>
+                            <Text style={{ fontSize: 18 }}>Don't have an account?</Text>
+                            <Text style={{ fontSize: 18, color: '#076fd9', paddingLeft: 10 }} onPress={this.goToCreateAccount}>Sign Up!</Text>
                         </View>
 
                         {/*Button for resetting forgotten password*/}
@@ -206,16 +207,16 @@ export default connect()(Login)
 
 const styles = StyleSheet.create({
     textInput: {
-      borderWidth: 1,
-      borderColor: 'lightgrey',
-      height:50,
-      maxHeight:50,
-      justifyContent:'center',
-      padding:8,
+        borderWidth: 1,
+        borderColor: 'lightgrey',
+        height: 50,
+        maxHeight: 50,
+        justifyContent: 'center',
+        padding: 8,
     },
     titleText: {
-        fontSize:40,
-        fontWeight:'bold',
-        fontStyle:'italic',
+        fontSize: 40,
+        fontWeight: 'bold',
+        fontStyle: 'italic',
     }
-  });
+});

@@ -47,14 +47,14 @@ export class Settings extends Component {
                         <Text style = {styles.text}> Stats Displayed: {this.props.stats_to_display} </Text>
                         {/* <Text style = {styles.text}> Audio Updates: {(this.props.update_frequency ? "On" : "Off")} </Text> */}
                         {/* Button to update email address and/or password */}
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             style={styles.updateButton}
                             onPress={() => {
                                 this.props.navigation.navigate("EMAILPASSWORD");
                                 }
                             }>
                             <Text style={styles.buttonText}>Update Email/Password</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                         {/* Button to edit non-email/password portions of profile */}
                         <TouchableOpacity
                             style={styles.editButton}
@@ -84,12 +84,12 @@ export class Settings extends Component {
                         {/* Allows user to delete their account. Requires re-authentication. Redirects to login screen once user provides password
                         and confirms via dialog box. */}
                         <View>
-                            <TouchableOpacity
+                            {/* <TouchableOpacity
                                 style={styles.deleteButton}
                                 onPress={this._showDialog}>
                                 <Text style={styles.buttonText}>Delete Account</Text>
-                            </TouchableOpacity>
-                            <Portal>
+                            </TouchableOpacity> */}
+                            {/* <Portal>
                                 <Dialog
                                     visible={this.state.visible}
                                     onDismiss={this._hideDialog}>
@@ -153,7 +153,7 @@ export class Settings extends Component {
                                         <Button onPress={this._hideDialog}>Cancel</Button>
                                     </Dialog.Actions>
                                 </Dialog>
-                            </Portal>
+                            </Portal> */}
                         </View>
                     </View>
                 </ScrollView>
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
         marginTop:10,
         paddingTop:10,
         paddingBottom:10,
-        backgroundColor:'#4dff4d',
+        backgroundColor:'#FC0205',
         borderRadius:10,
         borderWidth: 1,
         borderColor: '#fff'

@@ -66,5 +66,5 @@ export default function calculateCalories(weight, avgSpeed, time) {
     else {
         met = 23
     }
-    return (weight * met * time/60)
+    return ((weight*2.2)/200 * 7.7 * met * time/60)
 }// JavaScript source code

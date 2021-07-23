@@ -34,10 +34,19 @@ export class SimplyRun extends Component {
         secs: 0,
         mins: 0,
         hrs: 0,
+        location_off: true,
         startTime: "",
         route: "",
         pace: 0,
-        calories: 0
+        calories: 0,
+        initialPosition: {
+        
+            latitude: -7.221252011266476,
+            longitude: 110.32118136208109,
+            latitudeDelta: 10.0022,
+            longitudeDelta: 10.0021,
+        },
+
     }
 
     componentDidUpdate(prevProps) {
@@ -47,10 +56,65 @@ export class SimplyRun extends Component {
             this.props.display_calories !== prevProps.display_calories) {
             this.formatStats()
         }
-
     }
 
+    componentDidMount() {
 
+        Geolocation.watchPosition(position => {
+            // console.log("testing watch position => " + position.coords.longitude);
+            this.setState({ location_off: false })
+            // console.log("AOUR LOCATION STATE>>>>>>>"+this.state.location_off)
+
+
+        }, error => {
+            this.setState({ location_off: true })
+            // console.log("AOUR LOCATION STATE>>>>>>>"+this.state.location_off)
+
+            console.log(error)
+        }, {
+            enableHighAccuracy: true,
+            // timeout: 20000,
+            distanceFilter: 0.000001,
+        })
+
+        Geolocation.getCurrentPosition(
+            position => {
+                this.setState({ location_off: false })
+                var lat = parseFloat(position.coords.latitude);
+                var long = parseFloat(position.coords.longitude);
+
+                var initialRegion = {
+                    latitude: lat,
+                    longitude: long,
+                    latitudeDelta: 0.0022,
+                    longitudeDelta: 0.0021,
+                };
+                this.setState({ initialPosition: initialRegion });
+                console.log("SET INITIAL REGION DONE!!");
+
+            },
+            error => {
+                this.setState({ location_off: true })
+                console.log("AOUR LOCATION STATE>>>>>>>" + this.state.location_off)
+                Alert.alert(
+                    "Oops cannot find your location",
+                    "Please turn on your location",
+                    [
+                        {
+                            text: "OK",
+                            style: "cancel",
+                        },
+                    ],
+                    {
+                        cancelable: true,
+
+                    }
+                )
+            }, {
+            enableHighAccuracy: true
+        }
+        );
+    }
     formatStats = () => {
         var formatSec = "" + this.state.sec; formatSec = formatSec.padStart(2, '0');
 
@@ -296,52 +360,56 @@ export class SimplyRun extends Component {
 
     }
 
+    chekingPosition = () => {
+        // check every single click button
+        Geolocation.getCurrentPosition(
+            position => {
+                this.setState({ location_off: false })
+                console.log("lewatttt");
+            },
+            error => {
+                this.setState({ location_off: true })
+            }, {
+            enableHighAccuracy: true
+        }
+        );
+    }
+
+
     start = () => {
         //Get Inital start of run time 
+        this.chekingPosition()
 
-        var startTime = new Date().getTime()
+        if (this.state.location_off == false) {
+            // this.startTracking()
+            // console.log("STATE BUTTON HERE BEGIN >>>" + this.state.button);
 
 
-        if (!this.state.startRun & this.state.paused) {
-            this.setState({ paused: false })
-        }
-        //Run has not started yet
-        if (this.state.startRun) {
-            this.setState({ startTime: new Date() })
-            this.startTracking()
-            this.setState({ current: "Tracking Run" })
-            this.setState({ button: true, stopButton: true, startRun: false })
+            // console.log("Cond location >>>>" + this.state.location_off);
+            var startTime = new Date().getTime()
 
-            setTimeout(() => this.intervalID = setInterval(() => {
-                var diff = startTime - new Date().getTime();
-                var hr = Math.floor(-diff / 3600000)
-                var mili = -diff - 3600000 * hr
-                var min = Math.floor(mili / 60000);
-                mili = mili - 60000 * min;
-                var sec = mili / 1000;
-                mili = mili - 1000 & sec;
-                min = min.toFixed(0);
-                sec = sec.toFixed(0);
-                this.setState({ hour: parseInt(hr), min: parseInt(min), sec: parseInt(sec), mili: parseInt(mili) })
-                this.formatStats()
-            }, 500), 1000 / 60);
 
-        } else {
-            if (this.state.paused) {
-                this.setState({ current: "Tracking Run" })
-                Geolocation.getCurrentPosition(
-                    position => {
-                        var currentPosition = position.coords;
-                        this.setState({ previousPosition: currentPosition })
-                    }
-                )
+            var watchingOption = {
+                enableHighAccuracy: true,
+                timeout: 20000,
+                distanceFilter: 0.001,
+            }
+
+
+            if (!this.state.startRun & this.state.paused) {
+                this.setState({ paused: false })
+            }
+            //Run has not started yet
+            // console.log(this.state.location_off);
+
+            if (this.state.startRun) {
+                console.log("condition 1");
+                this.setState({ startTime: new Date() })
                 this.startTracking()
-                var pauseSec = this.state.sec;
-                var pauseMin = this.state.min;
-                var pauseHour = this.state.hour;
+                this.setState({ current: "Tracking Run" })
+                this.setState({ button: true, stopButton: true, startRun: false })
 
                 setTimeout(() => this.intervalID = setInterval(() => {
-                    this.setState({ button: true })
                     var diff = startTime - new Date().getTime();
                     var hr = Math.floor(-diff / 3600000)
                     var mili = -diff - 3600000 * hr
@@ -351,35 +419,109 @@ export class SimplyRun extends Component {
                     mili = mili - 1000 & sec;
                     min = min.toFixed(0);
                     sec = sec.toFixed(0);
-                    //Add new time differnce to old time differnce 
-
-                    var newSec = pauseSec + parseInt(sec)
-                    var newMin = pauseMin + parseInt(min)
-                    var newHour = pauseHour + parseInt(hr)
-
-                    while (newSec >= 60) {
-                        newSec = newSec - 60;
-                        newMin = newMin + 1;
-                    }
-                    while (newMin >= 60) {
-                        newMin = newMin - 60;
-                        newHour = newHour + 1;
-                    }
-                    this.setState({ hour: newHour, min: newMin, sec: newSec, mili: parseInt(mili) });
+                    this.setState({ hour: parseInt(hr), min: parseInt(min), sec: parseInt(sec), mili: parseInt(mili) })
                     this.formatStats()
                 }, 500), 1000 / 60);
 
-
             } else {
-                this.setState({ current: "Run Paused" })
-                this.setState({ button: false })
-                this.setState({ stopButton: true })
-                this.setState({ paused: true })
+                if (this.state.paused) {
+                    console.log("condition 2");
+                    // this.chekingPosition()
+                    this.setState({ current: "Tracking Run" })
+                    Geolocation.getCurrentPosition(
+                        position => {
+                            var currentPosition = position.coords;
+                            this.setState({ previousPosition: currentPosition })
+                        },
+                        error => {
+                            this.setState({ location_off: true })
+                        }, {
+                        enableHighAccuracy: true
+                    }
+                    )
+                    this.startTracking()
+                    var pauseSec = this.state.sec;
+                    var pauseMin = this.state.min;
+                    var pauseHour = this.state.hour;
 
-                clearInterval(this.intervalID);
-                clearInterval(this.intervalTrackingID)
+                    setTimeout(() => this.intervalID = setInterval(() => {
+                        this.setState({ button: true })
+                        var diff = startTime - new Date().getTime();
+                        var hr = Math.floor(-diff / 3600000)
+                        var mili = -diff - 3600000 * hr
+                        var min = Math.floor(mili / 60000);
+                        mili = mili - 60000 * min;
+                        var sec = mili / 1000;
+                        mili = mili - 1000 & sec;
+                        min = min.toFixed(0);
+                        sec = sec.toFixed(0);
+                        //Add new time differnce to old time differnce 
+
+                        var newSec = pauseSec + parseInt(sec)
+                        var newMin = pauseMin + parseInt(min)
+                        var newHour = pauseHour + parseInt(hr)
+
+                        while (newSec >= 60) {
+                            newSec = newSec - 60;
+                            newMin = newMin + 1;
+                        }
+                        while (newMin >= 60) {
+                            newMin = newMin - 60;
+                            newHour = newHour + 1;
+                        }
+                        this.setState({ hour: newHour, min: newMin, sec: newSec, mili: parseInt(mili) });
+                        this.formatStats()
+                    }, 500), 1000 / 60);
+
+
+                } else {
+                    console.log("condition 3");
+                    // this.chekingPosition()
+                    if (this.state.location_off == false) {
+
+                    } else {
+                        Alert.alert(
+                            "Oopss cannot find your location",
+                            "Please turn on your location",
+                            [
+                                {
+                                    text: "OK",
+                                    style: "cancel",
+                                },
+                            ],
+                            {
+                                cancelable: true,
+
+                            }
+                        )
+                    }
+                    this.setState({ current: "Run Paused" })
+                    this.setState({ button: false })
+                    this.setState({ stopButton: true })
+                    this.setState({ paused: true })
+
+                    clearInterval(this.intervalID);
+                    clearInterval(this.intervalTrackingID)
+                }
             }
+        } else {
+            Alert.alert(
+                "Oopss cannot find your location",
+                "Please turn on your location",
+                [
+                    {
+                        text: "OK",
+                        style: "cancel",
+                    },
+                ],
+                {
+                    cancelable: true,
+
+                }
+            )
         }
+
+        console.log("STATE BUTTON HERE >>>" + this.state.button);
     }
 
 
@@ -390,28 +532,66 @@ export class SimplyRun extends Component {
             Geolocation.getCurrentPosition(
                 position => {
                     var currentPosition = position.coords;
-
-                    this.setState({ coordinates: this.state.coordinates.concat([currentPosition]) })
+                    var lat = parseFloat(position.coords.latitude);
+                    var long = parseFloat(position.coords.longitude);
+                    var initialRegion = {
+                        latitude: lat,
+                        longitude: long,
+                        latitudeDelta: 0.0022,
+                        longitudeDelta: 0.0021,
+                    };
+                    this.setState({ initialPosition: initialRegion });
+                    this.setState({ coordinates: this.state.coordinates.concat([{ "latitude": currentPosition.latitude, "longitude": currentPosition.longitude }]) })
                     this.setState({ distance: this.state.distance + this.coordDistance(currentPosition) })
                     this.setState({ previousPosition: currentPosition })
-                    geopoint = new firebase.firestore.GeoPoint(currentPosition.latitude, currentPosition.longitude)
+                    let geopoint = new firebase.firestore.GeoPoint(currentPosition.latitude, currentPosition.longitude)
                     this.setState(prevState => ({
                         route: [...prevState.route, geopoint]
                     }))
-                    console.log('RUN-ROUTE = '+ currentPosition.latitude)
+                    // console.log('RUN-ROUTE => ' + currentPosition.latitude)
+                    // console.log('interval => ' + JSON.stringify(this.intervalTrackingID));
+                    // console.log("THIS IS OUR ROUTE RUNNING =>" + JSON.stringify(this.state.coordinates));
 
-                }
+                }, err => {
+                    this.setState({ current: "Run Paused" })
+                    this.setState({ button: false })
+                    this.setState({ stopButton: true })
+                    this.setState({ paused: true })
+                    clearInterval(this.intervalID);
+                    clearInterval(this.intervalTrackingID)
+                    Alert.alert(
+                        "Oopss cannot find your location",
+                        "Please turn on your location",
+                        [
+                            {
+                                text: "OK",
+                                style: "cancel",
+                            },
+                        ],
+                        {
+                            cancelable: true,
+
+
+                        }
+                    )
+                }, {
+                enableHighAccuracy: true
+            }
 
             )
 
+
+            // ini rumus kalori
             if (this.state.distance !== 0) {
                 var totalTimeSecs = (this.state.hour * 60 * 60) + (this.state.min * 60) + this.state.sec + (this.state.mili / 1000);
                 let kmPerHour = ((this.state.distance * 1.609)) / ((totalTimeSecs / 60) / 60)
-                let cal = calculateCalories((this.props.weight * .435), kmPerHour, (totalTimeSecs / 60))
+
+
+                let cal = calculateCalories((this.props.weight), kmPerHour, (totalTimeSecs / 60))
                 this.setState({ calories: cal })
             }
 
-        }, 10000), 1000);
+        }, 1000), 1000);
     }
 
     coordDistance = (position) => {
@@ -423,6 +603,7 @@ export class SimplyRun extends Component {
         clearInterval(this.intervalId, this.intervalTrackingID);
     }
 
+
     render() {
         return (
             <View style={{ flex: 1, }}>
@@ -433,14 +614,17 @@ export class SimplyRun extends Component {
                         showsUserLocation={true}
                         style={{ flex: 2 }}
                         followsUserLocation={true}
+                        region={this.state.initialPosition}
+                        showsMyLocationButton={true}
                     >
-
-                        <Polyline coordinates={this.state.coordinates} strokeWidth={5} />
-
-
+                        <Polyline coordinates={this.state.coordinates} strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+                            strokeColors={[
+                                '#7F0000',
+                                '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
+                            ]}
+                            strokeWidth={4} />
                     </MapView> : null
                 }
-
 
                 <View style={{
                     alignItems: 'center', justifyContent: "center", flex: 1.5, backgroundColor: '#A44CA0',
@@ -457,7 +641,8 @@ export class SimplyRun extends Component {
                         flexDirection: 'row', justifyContent: 'space-around', paddingBottom: 10
                     }}>
                         {
-                            this.state.button ? < StartButton onPress={this.start} pauseButton={true} /> :
+                            this.state.button ? < StartButton onPress={this.start} pauseButton={true}
+                            /> :
                                 < StartButton onPress={this.start} pauseButton={false} />
 
                         }
