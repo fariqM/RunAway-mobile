@@ -14,6 +14,7 @@ export const addRunAction = newRun => {
   var koor = { latitude: 0, longitude: 0 };
 
   var polilen = [];
+
   //build route
   // for (i = 0; i < newRun.route.length; i++){
   //     geopoint = newRun.route[i]
@@ -30,15 +31,15 @@ export const addRunAction = newRun => {
   // }
 
   const AS = newRun.route
-  console.log(
-    'Route  in RunLogAction adalah = ' + JSON.stringify(newRun.route),
-  );
+  // console.log(
+  //   'Route  in RunLogAction adalah = ' + JSON.stringify(newRun.route),
+  // );
   Array.prototype.forEach.call(AS, element => {
     koor.latitude = element.wc;
     koor.longitude = element.Rc;
 
     polilen.push({latitude: element.wc, longitude: element.Rc})
-    console.log("our polilen >>> " +JSON.stringify(polilen));
+    // console.log("our polilen >>> " +JSON.stringify(polilen));
   });
 
 

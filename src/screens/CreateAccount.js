@@ -86,7 +86,7 @@ export class CreateAccount extends Component {
                 <KeyboardAvoidingView style={{flex:1, marginHorizontal:20}} behavior='padding'>
                     {/*SIMPLY RUN*/}
                     <View  style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-                        <Text style={styles.titleText}>Simply Run</Text>
+                        <Text style={styles.titleText}>RunAway</Text>
                     </View>
 
                     <View style={{flex:2}}>

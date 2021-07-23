@@ -250,7 +250,7 @@ export class RunLog extends Component {
           const lat = this.state.selectedRun.lat;
           const long = this.state.selectedRun.long;
           const route = this.state.selectedRun.route;
-          console.log('this is our lat in RunLog ' + JSON.stringify(route));
+          // console.log('this is our lat in RunLog ' + JSON.stringify(route));
 
           this.setState({
             modalData: modalData,
@@ -260,7 +260,7 @@ export class RunLog extends Component {
             long: long
           });
 
-          console.log("this is our state >>>> " + JSON.stringify(this.state.route));
+          // console.log("this is our state >>>> " + JSON.stringify(this.state.route));
           // console.log(
           //   'this is our state in RunLog ' + JSON.stringify(this.state),
           // );
@@ -393,14 +393,14 @@ export class RunLog extends Component {
                     <Text style={styles.buttonText}>Back</Text>
                   </TouchableHighlight>
 
-                  <TouchableHighlight
+                  {/* <TouchableHighlight
                     underlayColor="#AAAAAA"
                     style={styles.deletebutton}
                     onPress={() => {
                       this.ConfirmDeleteRun();
                     }}>
                     <Text style={styles.buttonText}>Delete</Text>
-                  </TouchableHighlight>
+                  </TouchableHighlight> */}
                 </View>
 
                 <Text style={styles.title}>Run Details</Text>

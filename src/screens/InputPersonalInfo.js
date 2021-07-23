@@ -170,8 +170,9 @@ export class InputPersonalInfo extends Component {
                 <KeyboardAvoidingView style={{flex:1, marginHorizontal:20}} behavior='padding'>
                     {/*SIMPLY RUN*/}
                     <View  style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-                        <Text style={styles.titleText}>RunAway Protoype</Text>
+                        <Text style={styles.titleText}>RunAway</Text>
                     </View>
+
 
                     <View style={{flex:1}}>
 

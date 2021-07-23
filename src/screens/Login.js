@@ -81,8 +81,8 @@ export class Login extends Component {
 
                                 })
                             }).catch((error) => {
-                                // console.log("Login: Error fetching run data:", error.message)
-                                Alert.alert(error.message)
+                                console.log("Login: Error fetching run data:", error.message)
+                                Alert.alert("Login:"+error.message)
                             })
 
                         // Navigate to main
@@ -135,7 +135,7 @@ export class Login extends Component {
                 <KeyboardAvoidingView style={{ flex: 1, marginHorizontal: 20 }} behavior='padding'>
                     {/*SIMPLY RUN*/}
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={styles.titleText}>Runaway (Prototype 0.3)</Text>
+                        <Text style={styles.titleText}>Runaway</Text>
                     </View>
 
                     <View style={{ flex: 2 }}>
